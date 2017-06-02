@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="ImgurClient.Views.GalleryDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ImgurClient.Views"
+    xmlns:templates="using:ImgurClient.Templates"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Name="FlipViewTemplate">
+            <templates:GalleryFlipViewTemplate />
+        </DataTemplate>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <FlipView x:Name="GalleryFlipView"
+                      Background="Transparent"
+                      ItemTemplate="{StaticResource FlipViewTemplate}"
+                      Loaded="GalleryFlipView_Loaded"
+                      ItemsSource="{x:Bind mainviewmodel.GalleryItems}">
+                
+            </FlipView>
+        </Grid>
+        <Grid Grid.Column="1">
+            <TextBlock Text="comments" />
+        </Grid>
+        <Image Opacity="0" x:Name="image" />
+    </Grid>
+</Page>

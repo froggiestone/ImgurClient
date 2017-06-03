@@ -26,7 +26,7 @@
                     <TextBlock FontSize="40" TextWrapping="Wrap" Text="{Binding title}" />
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Image MaxWidth="{Binding width}" Opacity="0" x:Name="DetailImage" Source="{Binding link}" />
+                    <Image MaxWidth="{Binding width}"  x:Name="DetailImage" Source="{Binding link}" />
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -40,7 +40,7 @@
                     <TextBlock FontSize="40" TextWrapping="Wrap" Text="{Binding title}" />
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Image x:Name="PlaceholderImage" MaxWidth="{Binding width}" Opacity="0" Canvas.ZIndex="2" />
+                    <Image Visibility="Collapsed" x:Name="PlaceholderImage" MaxWidth="{Binding width}" Canvas.ZIndex="2" />
                     <MediaElement Canvas.ZIndex="1" MaxWidth="{Binding width}" x:Name="DetailVideo" Source="{Binding mp4}" />
                 </Grid>
             </Grid>

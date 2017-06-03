@@ -46,7 +46,10 @@ namespace ImgurClient.ViewModels
                     ms.Dispose();
                     serializer = null;
 
-                   
+                    foreach (var item in response.data.images)
+                    {
+                        Album.Add(item);
+                    }
                     
                     return true;
                 }

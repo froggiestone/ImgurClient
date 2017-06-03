@@ -26,7 +26,7 @@ namespace ImgurClient.DataModels
         public DescriptionAnnotations description_annotations { get; set; }
     }
 
-    public class Image
+    public class AlbumItem
     {
         public string id { get; set; }
         public object title { get; set; }
@@ -42,6 +42,7 @@ namespace ImgurClient.DataModels
         public object vote { get; set; }
         public bool favorite { get; set; }
         public object nsfw { get; set; }
+        public string mp4 { get; set; }
         public object section { get; set; }
         public object account_url { get; set; }
         public object account_id { get; set; }
@@ -59,7 +60,7 @@ namespace ImgurClient.DataModels
         public object score { get; set; }
     }
 
-    public class Data
+    public class Album
     {
         public string id { get; set; }
         public string title { get; set; }
@@ -93,12 +94,12 @@ namespace ImgurClient.DataModels
         public int ad_type { get; set; }
         public string ad_url { get; set; }
         public bool in_most_viral { get; set; }
-        public List<Image> images { get; set; }
+        public List<AlbumItem> images { get; set; }
     }
 
     public class AlbumDataModel
     {
-        public Data data { get; set; }
+        public Album data { get; set; }
         public bool success { get; set; }
         public int status { get; set; }
     }

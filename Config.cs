@@ -14,4 +14,9 @@ namespace ImgurClient
         public static string UserToken = "";
         public static bool EnableCache = true;
     }
+
+    public static class Globals
+    {
+        public static object NavigatedTo;
+    }
 }

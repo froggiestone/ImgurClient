@@ -1,7 +1,9 @@
 ﻿using ImgurClient.DataModels;
+using ImgurClient.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -13,7 +15,7 @@ using Windows.UI.Xaml;
 
 namespace ImgurClient.ViewModels
 {
-    public class AlbumViewModel
+    public class AlbumViewModel : NotificationBase
     {
         public ObservableCollection<AlbumItem> Album = new ObservableCollection<AlbumItem>();
 
@@ -22,16 +24,32 @@ namespace ImgurClient.ViewModels
 
         }
 
+        private string _AlbumTitle;
+        public string AlbumTitle
+        {
+            get { return _AlbumTitle; }
+            set { SetProperty(_AlbumTitle, value, () => _AlbumTitle = value); }
+        }
+
         public void SingleItem(GalleryItem galleryitem)
         {
+            Album.Clear();
 
+            var item = new AlbumItem();
+            item.title = galleryitem.title;
+            item.link = galleryitem.link;
+            item.mp4 = galleryitem.mp4;
+            item.width = galleryitem.width;
+
+            Album.Add(item);
         }
 
         public async Task<bool> GetAlbum(string id)
         {
             try
             {
-
+                // Album = new ObservableCollection<AlbumItem>();
+                Album.Clear();
                 // https://api.imgur.com/3/gallery/album/{id}
                 string url = Config.Endpoint + "gallery/album/" + id;
 
@@ -46,11 +64,14 @@ namespace ImgurClient.ViewModels
                     ms.Dispose();
                     serializer = null;
 
+                    AlbumTitle = response.data.title;
+
                     foreach (var item in response.data.images)
                     {
                         Album.Add(item);
                     }
-                    
+
+                    Debug.WriteLine("Album loaded: " + Album.Count);
                     return true;
                 }
 

@@ -1,13 +1,16 @@
-﻿<UserControl
+﻿ <UserControl
     x:Class="ImgurClient.Templates.GalleryFlipViewTemplate"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ImgurClient.Templates"
+     xmlns:helpers="using:ImgurClient.Helpers"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
     Loaded="UserControl_Loaded"
+    DataContextChanged="UserControl_DataContextChanged"
     d:DesignWidth="400">
     <UserControl.Resources>
         <local:AlbumListViewTemplateSelecter
@@ -17,39 +20,76 @@
                 />
 
         <DataTemplate x:Name="AlbumListViewImage">
-            <Grid>
+            <Grid HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <TextBlock FontSize="40" TextWrapping="Wrap" Text="{Binding title}" />
+                    <TextBlock FontSize="20" TextWrapping="Wrap" Text="{Binding title}" />
                 </Grid>
                 <Grid Grid.Row="1">
+                    <Image MaxWidth="{Binding width}"  x:Name="CoverPlaceholder" Source="{Binding link}" />
                     <Image MaxWidth="{Binding width}"  x:Name="DetailImage" Source="{Binding link}" />
+                </Grid>
+                <Grid Grid.Row="2">
+                    <TextBlock Text="{Binding description}" />
                 </Grid>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Name="AlbumListViewVideo">
-            <Grid>
+            <Grid HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <TextBlock FontSize="40" TextWrapping="Wrap" Text="{Binding title}" />
+                    <TextBlock FontSize="20" TextWrapping="Wrap" Text="video" />
                 </Grid>
                 <Grid Grid.Row="1">
                     <Image Visibility="Collapsed" x:Name="PlaceholderImage" MaxWidth="{Binding width}" Canvas.ZIndex="2" />
-                    <MediaElement Canvas.ZIndex="1" MaxWidth="{Binding width}" x:Name="DetailVideo" Source="{Binding mp4}" />
+                    <MediaElement MediaOpened="DetailVideo_MediaOpened" 
+                                  Canvas.ZIndex="1" 
+                                  MaxWidth="{Binding width}"
+                                  x:Name="DetailVideo"
+                                  IsLooping="True"
+                                  AutoPlay="True"
+                                  Source="{Binding mp4}" />
                 </Grid>
             </Grid>
         </DataTemplate>
       
     </UserControl.Resources>
+
     <ListView x:Name="AlbumListView"
               ItemsSource="{x:Bind albumviewmodel.Album}"
               ItemTemplateSelector="{StaticResource AlbumListViewTemplateSelecter}">
+        <ListView.Header>
+            <toolkit:ScrollHeader Mode="Sticky" TargetListViewBase="{x:Bind AlbumListView}">
+                <Grid>
+                    <helpers:BackDrop BlurAmount="20" SaturationIntensity="1" TintColor="Black" Canvas.ZIndex="1" TintAlpha="1" />
+                    <Grid Canvas.ZIndex="2" Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
 
+                        <Grid Grid.Column="0" Margin="0,0,10,0">
+                            <Image x:Name="Cover" Height="80" Width="80">
+                               
+                            </Image>
+                           
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <TextBlock FontSize="25" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding title}" />
+                        </Grid>
+                    </Grid>
+                    
+                   
+                </Grid>
+                
+            </toolkit:ScrollHeader>
+        </ListView.Header>
     </ListView>
 </UserControl>

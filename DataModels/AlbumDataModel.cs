@@ -34,7 +34,7 @@ namespace ImgurClient.DataModels
         public int datetime { get; set; }
         public string type { get; set; }
         public bool animated { get; set; }
-        public int width { get; set; }
+        public double? width { get; set; }
         public int height { get; set; }
         public int size { get; set; }
         public int views { get; set; }

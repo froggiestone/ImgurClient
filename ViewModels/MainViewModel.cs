@@ -24,8 +24,6 @@ namespace ImgurClient.ViewModels
 
         }
 
-        // as of this writing there is no way to have a virtualized variablegrid, so we do something really
-        // ugly instead, each colum will have a listview bound to it's own collection *it's not stupid if it works* or well.. :/
         public ObservableCollection<GalleryItem> GalleryItems = new ObservableCollection<GalleryItem>();
         
         private object _SelectedItem;
@@ -71,26 +69,37 @@ namespace ImgurClient.ViewModels
 
                         // build the thumbnail
 
+                        double thumbwidth = Window.Current.Bounds.Width / 5;
+
                         if (item.is_album)
                         {
                             item.albumid = item.id;
                             item.id = item.cover;
-
-                            double thumbwidth = Window.Current.Bounds.Width / 5;
-
+                            
+                            // original height / original width * new width = new height
                             item.thumbnail_height = (item.cover_height / item.cover_width) * thumbwidth;
                             item.thumbnail_width = thumbwidth;
+
+                           
                         }
                         else
                         {
-                            double thumbwidth = Window.Current.Bounds.Width / 5;
-
                             item.thumbnail_height = (item.height / item.width) * thumbwidth;
                             item.thumbnail_width = thumbwidth;
                         }
 
+                        if (item.thumbnail_height == 0)
+                        {
+                            item.thumbnail_height = thumbwidth;
+                        }
+
+
+                        else if (item.thumbnail_height > 500)
+                        {
+                            item.thumbnail_height = 500;
+                        }
                         // use the huge thumbnail, so we can make the connected animation smoother
-                        item.thumbnail = "http://i.imgur.com/" + item.id + "h.jpg";
+                        item.thumbnail = "http://i.imgur.com/" + item.id + "l.jpg";
                         
                         GalleryItems.Add(item);
                     }

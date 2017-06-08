@@ -1,10 +1,12 @@
-﻿using ImgurClient.ViewModels;
+﻿using ImgurClient.DataModels;
+using ImgurClient.ViewModels;
 using Marduk.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -32,7 +34,6 @@ namespace ImgurClient.Views
 
         private bool PageLoaded = false;
         private bool _navigated = false;
-        private object _container;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -63,20 +64,19 @@ namespace ImgurClient.Views
         
         private void GalleryGrid_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            
+            var item = e.Item;
             var container = e.Container as VirtualizingViewItem;
-
-            // used for holding the object used for connected backanimation
-            _container = container;
 
             var root = (FrameworkElement)container.ContentTemplateRoot;
             var image = (Image)root.FindName("thumbnail");
-            mainviewmodel.SelectedItem = e.Item;
+            mainviewmodel.SelectedItem = item;
 
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("thumbnail", image);
+            Globals.NavigatedTo = item;
             _navigated = true;
 
             Frame.Navigate(typeof(GalleryDetails), mainviewmodel);
+
         }
 
         private void GalleryGrid_Loaded(object sender, RoutedEventArgs e)
@@ -85,27 +85,32 @@ namespace ImgurClient.Views
             {
                 _navigated = false;
 
-                if (_container != null)
-                {
-                    var container = _container as VirtualizingViewItem;
-                    var root = (FrameworkElement)container.ContentTemplateRoot;
-                    var image = (Image)root.FindName("thumbnail");
+                var animationService = ConnectedAnimationService.GetForCurrentView();
+                var animation = animationService.GetAnimation("ThumbImage");
 
-                    // set up a new animation for navigating back
-                   var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ThumbImage");
-                
-                    if (animation != null)
+                if (animation != null)
+                {
+                    var item = Globals.NavigatedTo as GalleryItem;
+/*
+                    GalleryGrid.ScrollIntoView(item);
+
+                    var container = GalleryGrid.ContainerFromItem(Globals.NavigatedTo) as GridViewItem;
+                    if (container != null)
                     {
-                        // Wait for image opened. In future Insider Preview releases, this won't be necessary.
-                        image.ImageOpened += (sender_, e_) =>
-                        {
-                            image.Opacity = 1;
-                            animation.TryStart(image);
-                        };
+                        var root = (FrameworkElement)container.ContentTemplateRoot;
+                        var image = (Image)root.FindName("thumbnail");
+
+                        await GalleryGrid.TryStartConnectedAnimationAsync(animation, Globals.NavigatedTo, "thumbnail");
+                        */
+                    }
+                    else
+                    {
+                        animation.Cancel();
                     }
                 }
-                
+
             }
         }
+
+       
     }
-}

@@ -51,10 +51,9 @@
                 <ScrollViewer>
                     <controls:WaterfallFlowView x:Name="GalleryGrid" 
                                                 ItemSource="{x:Bind mainviewmodel.GalleryItems}" 
-                                                StackCount="5"
-                                                Loaded="GalleryGrid_Loaded"
+                                                StackCount="5" 
                                                 ItemTapped="GalleryGrid_ItemTapped"
-                                                DelayMeasure="True">
+                                                DelayMeasure="False">
                         <controls:WaterfallFlowView.Resizer>
                             <Helpers:MyItemResizer/>
                         </controls:WaterfallFlowView.Resizer>
@@ -66,35 +65,40 @@
                         </controls:WaterfallFlowView.ItemContainerStyle>
                         <controls:WaterfallFlowView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Background="{ThemeResource SystemAccentColor}" Height="{Binding thumbnail_height}" Width="{Binding thumbnail_width}">
-                                    <Image Canvas.ZIndex="1" x:Name="thumbnail" Stretch="UniformToFill" Source="{Binding thumbnail}"/>
-                                    <Grid Canvas.ZIndex="2">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="2*" />
-                                            <RowDefinition Height="1*" />
-                                        </Grid.RowDefinitions>
-
-                                        <Grid Grid.Row="0">
-                                            <TextBlock Text="{Binding images_count}" />
-                                        </Grid>
-                                        <Grid Grid.Row="1" Padding="10" VerticalAlignment="Bottom">
-                                            <TextBlock Text="{Binding title}" />
+                                <Border CornerRadius="4">
+                                    <Grid Canvas.ZIndex="1">
+                                        <Image Height="{Binding thumbnail_height}" 
+                                           Width="{Binding thumbnail_width}" 
+                                           x:Name="thumbnail" 
+                                           Stretch="UniformToFill"
+                                           Source="{Binding thumbnail}"/>
+                                        
+                                        <Grid Padding="10" Canvas.ZIndex="2" VerticalAlignment="Bottom">
                                             <Grid.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                    <LinearGradientBrush.RelativeTransform>
-                                                        <CompositeTransform CenterY="0.5" CenterX="0.5" Rotation="180"/>
-                                                    </LinearGradientBrush.RelativeTransform>
-                                                    <GradientStop Color="Black" Offset="0"/>
-                                                    <GradientStop Color="Transparent" Offset="1"/>
+                                                    <GradientStop Color="Transparent" Offset="0"/>
+                                                    <GradientStop Color="Black" Offset="1"/>
                                                 </LinearGradientBrush>
                                             </Grid.Background>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="{Binding title}" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding images_count}" />
+                                                    <TextBlock Text="{Binding comment_count}" />
+                                                </StackPanel>
+                                                
+                                            </StackPanel>
+                                           
                                         </Grid>
+                                       
                                     </Grid>
-                                </Grid>
+                                </Border>
+                                
                             </DataTemplate>
                         </controls:WaterfallFlowView.ItemTemplate>
                     </controls:WaterfallFlowView>
                 </ScrollViewer>
+           
             </PivotItem>
         </Pivot>
     </Grid>

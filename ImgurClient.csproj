@@ -98,6 +98,8 @@
     <Compile Include="Config.cs" />
     <Compile Include="DataModels\AlbumDataModel.cs" />
     <Compile Include="DataModels\GalleryDataModel.cs" />
+    <Compile Include="Helpers\Backdrop.cs" />
+    <Compile Include="Helpers\CustomGridView.cs" />
     <Compile Include="Helpers\MyItemResizer.cs" />
     <Compile Include="Helpers\NotificationBase.cs" />
     <Compile Include="MainPage.xaml.cs">

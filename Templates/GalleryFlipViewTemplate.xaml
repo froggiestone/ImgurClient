@@ -30,7 +30,7 @@
                     <TextBlock FontSize="20" TextWrapping="Wrap" Text="{Binding title}" />
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Image MaxWidth="{Binding width}"  x:Name="CoverPlaceholder" Source="{Binding link}" />
+                    <Image MaxWidth="{Binding width}"  x:Name="CoverPlaceholder" />
                     <Image MaxWidth="{Binding width}"  x:Name="DetailImage" Source="{Binding link}" />
                 </Grid>
                 <Grid Grid.Row="2">
